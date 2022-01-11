@@ -12,7 +12,6 @@ import Iter "mo:base/Iter";
 let this = actor {
     public type Blog =Type.Blog;
     public type Message = Type.Message;
-    public type MicroBlog = Type.Blog;
     
     stable var idToCanisterArray : [(Principal,Principal)] =[];
 
