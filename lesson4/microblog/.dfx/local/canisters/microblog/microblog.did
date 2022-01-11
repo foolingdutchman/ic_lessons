@@ -1,0 +1,23 @@
+type Time = int;
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type Message = 
+ record {
+   content: text;
+   time: Time;
+ };
+service : {
+  follow: (principal) -> ();
+  follows: () -> (vec principal);
+  getBalance: () -> (nat);
+  getCanisterId: () -> (opt principal);
+  getCurrentTime: () -> (int);
+  init: () -> (Result);
+  post: (text) -> ();
+  posts: (Time) -> (vec Message);
+  timeline: (Time) -> (vec Message);
+  whoAmI: () -> (principal);
+}
