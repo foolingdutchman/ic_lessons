@@ -1,0 +1,29 @@
+type Time = int;
+type Message = 
+ record {
+   author: text;
+   content: text;
+   time: Time;
+ };
+type BlogInfo = 
+ record {
+   id: text;
+   name: text;
+ };
+service : {
+  follow: (text, principal) -> ();
+  follows: () -> (vec principal) query;
+  followsInfo: () -> (vec BlogInfo);
+  getInfo: () -> (record {
+                    cId: text;
+                    userName: text;
+                  });
+  get_name: () -> (text);
+  init: (text, text) -> () oneway;
+  modifyPassword: (text, text, text) -> () oneway;
+  post: (text, text) -> ();
+  posts: (Time) -> (vec Message) query;
+  set_name: (text, text) -> ();
+  timeline: (Time) -> (vec Message);
+  whoAmI: () -> (text);
+}

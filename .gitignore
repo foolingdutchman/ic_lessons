@@ -13,3 +13,6 @@ counter/.dfx/
 # frontend code
 counter/node_modules/
 counter/dist/
+lesson5/microblog/dist/
+lesson5/microblog/node_modules/
+lesson5/microblog/.dfx/

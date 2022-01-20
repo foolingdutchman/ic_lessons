@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>microblog</title>
+  <base href="/" />
+  <link rel="icon" href="favicon.ico" />
+  <link type="text/css" rel="stylesheet" href="main.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class='nav'>
+
+    <div class="nav-comment">
+      <span class="nav-span"> Microblog</span>
+      <span id="setting" class="material-icons white ">settings</span>
+    </div>
+    <div class="nav-comment">
+      <span id='name' class="nav-comment-span"></span>
+      <span id="edit_name" class="material-icons white md-18">
+        mode_edit
+      </span>
+    </div>
+  </div>
+  <div class="button-area">
+    <button id="post" class="btn"> <span>Post new Message!</span></button>
+    <div class="expaned"></div>
+  </div>
+
+  <div class="main-area line-wrap">
+    <div class="post-area">
+      <div class="post-selector">
+        <span id="posts" class="post-area-span"> My Posts</span>
+        <span id="timeline" class="post-area-span-unselect"> Timeline</span>
+      </div>
+
+      <ul id="post-list">
+      </ul>
+    </div>
+    <div class="follow-area">
+      <span class="follow-area-span"> My Follows</span>
+      <span id="follow" class="material-icons">
+        person_add_alt
+      </span>
+      <ul id="follow-list"></ul>
+    </div>
+
+  </div>
+  <div class="footer">
+
+    <span id="my-id"></span>
+  </div>
+  <div class='dialog-bg' style="display: none;">
+    <div id="post-dialog" class="dialog post">
+      <span id="title" class="follow-area-span dialog-span"></span>
+      <label id="label" for="textarea"></label>
+      <textarea id="textarea"> </textarea>
+      <div class='post-dialog-line'><label for="pwd">Password :&nbsp </label><br> <input type="password" id="pwd"
+          name="pwd">
+        <button id="dialog-post" class="btn"><span>Post</span></button>
+      </div>
+      
+      <div class='post-dialog-line' > <span id="cancel" class="material-icons md-18 dialog-cancel"> close</span></div>
+      <div class='line-wrap'> <span id="hint-error" ></span></div>
+    </div>
+  </div>
+  <div id="loading" style="display: none;">
+    <div class="loading">
+      <div><span></span></div>
+      <div><span></span></div>
+      <div><span></span></div>
+    </div>
+  </div>
+</body>
+
+</html>
