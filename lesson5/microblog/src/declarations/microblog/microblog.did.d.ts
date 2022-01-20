@@ -11,7 +11,7 @@ export interface _SERVICE {
   'follows' : () => Promise<Array<Principal>>,
   'followsInfo' : () => Promise<Array<BlogInfo>>,
   'getInfo' : () => Promise<{ 'cId' : string, 'userName' : string }>,
-  'get_name' : () => Promise<string>,
+  'get_name' : () => Promise<[] | [string]>,
   'init' : (arg_0: string, arg_1: string) => Promise<undefined>,
   'modifyPassword' : (arg_0: string, arg_1: string, arg_2: string) => Promise<
       undefined
@@ -20,5 +20,6 @@ export interface _SERVICE {
   'posts' : (arg_0: Time) => Promise<Array<Message>>,
   'set_name' : (arg_0: string, arg_1: string) => Promise<undefined>,
   'timeline' : (arg_0: Time) => Promise<Array<Message>>,
+  'unfollow' : (arg_0: string, arg_1: Principal) => Promise<undefined>,
   'whoAmI' : () => Promise<string>,
 }

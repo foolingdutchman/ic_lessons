@@ -18,12 +18,13 @@ service : {
                     cId: text;
                     userName: text;
                   });
-  get_name: () -> (text);
+  get_name: () -> (opt text);
   init: (text, text) -> () oneway;
   modifyPassword: (text, text, text) -> () oneway;
   post: (text, text) -> ();
   posts: (Time) -> (vec Message) query;
   set_name: (text, text) -> ();
   timeline: (Time) -> (vec Message);
+  unfollow: (text, principal) -> ();
   whoAmI: () -> (text);
 }

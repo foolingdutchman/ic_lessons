@@ -16,7 +16,7 @@ module{
         post : shared (Text) -> async ();
         posts : shared query (since : Time.Time) -> async [Message];
         timeline : shared (since : Time.Time ) -> async [Message];
-        get_name : shared () -> async Text ;
+        get_name : shared () -> async ?Text ;
     };
 
     public type BlogInfo ={

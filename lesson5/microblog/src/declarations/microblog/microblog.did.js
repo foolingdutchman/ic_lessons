@@ -15,13 +15,14 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Record({ 'cId' : IDL.Text, 'userName' : IDL.Text })],
         [],
       ),
-    'get_name' : IDL.Func([], [IDL.Text], []),
+    'get_name' : IDL.Func([], [IDL.Opt(IDL.Text)], []),
     'init' : IDL.Func([IDL.Text, IDL.Text], [], ['oneway']),
     'modifyPassword' : IDL.Func([IDL.Text, IDL.Text, IDL.Text], [], ['oneway']),
     'post' : IDL.Func([IDL.Text, IDL.Text], [], []),
     'posts' : IDL.Func([Time], [IDL.Vec(Message)], ['query']),
     'set_name' : IDL.Func([IDL.Text, IDL.Text], [], []),
     'timeline' : IDL.Func([Time], [IDL.Vec(Message)], []),
+    'unfollow' : IDL.Func([IDL.Text, IDL.Principal], [], []),
     'whoAmI' : IDL.Func([], [IDL.Text], []),
   });
 };

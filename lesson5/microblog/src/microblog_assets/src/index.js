@@ -6,6 +6,7 @@ var type = "";
 var posts = [];
 var timeline = [];
 var follows = [];
+var isTriggered = false;
 $(function () {
   getInfo();
   getPosts();
@@ -101,7 +102,7 @@ function setFollows(arr) {
     html =
       html +
       '<li><div><div class="follow-line"><span class="material-icons  md-36">account_circle</span><span>' +
-      f.name +
+      (f.name === "" ? "Unnamed" : f.name) +
       '</span> </div> <div class=" follow-mark"><span id="id" class="follow-id"> ' +
       f.id +
       '</span></div><div class="divider"></div></li>';
@@ -119,8 +120,10 @@ function showDialog(title, hint) {
     resetDialog();
   });
   $("#dialog-post").click(function () {
-    var password = $("#pwd").val();
-    var message = $("#textarea").val();
+    if (isTriggered) return;
+    isTriggered = true;
+    var password = $("#pwd").val().trim();
+    var message = $("#textarea").val().trim();
     switch (type) {
       case "Modify Name":
         modifyName(message, password);
@@ -147,6 +150,7 @@ async function modifyName(message, password) {
     resetDialog();
     getInfo();
   } catch (error) {
+    isTriggered = false;
     showLoading(false);
     $("#hint-error").text("Modify Name failed!");
   }
@@ -154,6 +158,7 @@ async function modifyName(message, password) {
 
 async function follow(message, password) {
   showLoading(true);
+
   try {
     await microblog.follow(password, Principal.fromText(message));
     showLoading(false);
@@ -161,6 +166,7 @@ async function follow(message, password) {
     resetDialog();
     getFollows();
   } catch (error) {
+    isTriggered = false;
     showLoading(false);
     $("#hint-error").text("Follow blog failed!");
   }
@@ -174,6 +180,7 @@ async function modifyPassword(message, password) {
     $(".dialog-bg").hide();
     resetDialog();
   } catch (error) {
+    isTriggered = false;
     showLoading(false);
     $("#hint-error").text("Modify password failed!");
   }
@@ -188,6 +195,7 @@ async function post(message, password) {
     resetDialog();
     getPosts();
   } catch (error) {
+    isTriggered = false;
     showLoading(false);
     $("#hint-error").text("Post Message failed!");
   }
@@ -198,6 +206,7 @@ function resetDialog() {
   $("#textarea").val("");
   $("#pwd").val("");
   $("#hint-error").text("");
+  isTriggered = false;
 }
 
 function showLoading(is_shown) {

@@ -10,6 +10,7 @@ import Time "mo:base/Time";
 import Type "/type";
 import Iter "mo:base/Iter";
 
+
 let this = actor {
       public type Blog = Type.Blog;
       public type Message = Type.Message;
@@ -30,6 +31,12 @@ let this = actor {
              followed :=  Array.append(followed,[id])
            };
        };        
+    };
+
+    public shared func unfollow(_password :Text, id :Principal) : async() {
+         assert(verify(_password));
+         followed := Array.filter<Principal>(followed,func(p){not (p == id)})
+
     };
 
     public shared func whoAmI() : async Text{
@@ -69,8 +76,8 @@ let this = actor {
         name:= _name;
     };
 
-    public shared func get_name() :async Text {
-        name
+    public shared func get_name() :async ?Text {
+        Option.make(name) 
     };
 
 
@@ -82,11 +89,16 @@ let this = actor {
         var array : [BlogInfo] =[];
         for(p in Iter.fromArray(followed)){
             let blog : Blog= actor(Principal.toText(p));
-            let n = await blog.get_name();
-            array := Array.append<BlogInfo>(array,[{ 
-                name =n;
-                id = Principal.toText(p); 
-            }]);
+            let userName = try{
+                 let n = await blog.get_name();
+                 switch(n){
+                     case(?cname){cname};
+                     case(None){""};
+                 };
+            }catch(e){
+                ""
+            };
+            array := Array.append<BlogInfo>(array,[{name = userName; id = Principal.toText(p);}]);
         };
         array
     };
@@ -111,7 +123,11 @@ let this = actor {
         var result : [Message] =[]; 
         for(p in Iter.fromArray(followed)){
             let blog : Blog= actor(Principal.toText(p));
-            let ps = await blog.posts(since);
+            let ps =  try{
+                await blog.posts(since)
+                }catch(e){
+                []
+            };
             result := Array.append<Message>(result,ps);
         };
         Array.sort<Message>(result, func(a,b){Nat.compare(Int.abs(a.time),Int.abs(b.time))})
