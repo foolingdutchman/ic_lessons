@@ -6,6 +6,7 @@ var type = "";
 var posts = [];
 var timeline = [];
 var follows = [];
+var userPosts =[];
 var isTriggered = false;
 $(function () {
   getInfo();
@@ -26,25 +27,59 @@ $(function () {
     showDialog("Follow", "Input follow Canister ID:");
   });
   $("#posts").click(function () {
-    $("#timeline").removeClass("post-area-span");
-    $("#timeline").addClass("post-area-span-unselect");
-    $("#posts").removeClass("post-area-span-unselect");
-    $("#posts").addClass("post-area-span");
+    switchMessages("posts");
     setPosts();
   });
   $("#timeline").click(function () {
-    $("#posts").removeClass("post-area-span");
-    $("#posts").addClass("post-area-span-unselect");
-    $("#timeline").removeClass("post-area-span-unselect");
-    $("#timeline").addClass("post-area-span");
+    switchMessages("timeline");
     setTimeLine();
   });
+  $("#follow-list").on("click", ".avatar", function (e) {
+   // alert("点击了动态li标签, id: "+ e.target.id);
+   console.log("id is :"+e.target.id);
+    switchMessages(e.target.id);
+    getUserPosts(e.target.id);
+  });
+
 });
+
+function switchMessages (key) {
+    switch (key) {
+      case "posts":
+       $("#timeline").removeClass("post-area-span");
+       $("#timeline").addClass("post-area-span-unselect");
+       $("#posts").removeClass("post-area-span-unselect");
+       $("#posts").addClass("post-area-span");
+        $("#user").text("");
+        break;
+      case "timeline":
+         $("#posts").removeClass("post-area-span");
+         $("#posts").addClass("post-area-span-unselect");
+         $("#timeline").removeClass("post-area-span-unselect");
+         $("#timeline").addClass("post-area-span");       
+        $("#user").text("");
+        break;
+      default:
+        $("#timeline").removeClass("post-area-span");
+        $("#timeline").addClass("post-area-span-unselect");
+        $("#posts").removeClass("post-area-span");
+        $("#posts").addClass("post-area-span-unselect");
+        $("#user").text(key);
+        break;  
+    }
+}
 
 async function getInfo() {
   info = await microblog.getInfo();
   $("#name").text("This is " + info.userName + "'s Blog!");
   $("#my-id").text("Follow me by my canister ID: " + info.cId);
+}
+
+async function getUserPosts(id){
+  showLoading(true);
+  userPosts = await microblog.followPosts(id, 1000000);
+  showLoading(false);
+  setMessages(userPosts);
 }
 
 async function setPosts() {
@@ -97,17 +132,21 @@ function setMessages(arr) {
 }
 
 function setFollows(arr) {
-  var html = "";
+  $("#follow-list").html("");
   for (var f of arr) {
-    html =
-      html +
-      '<li><div><div class="follow-line"><span class="material-icons  md-36">account_circle</span><span>' +
+   var li =
+      
+      '<li><div><div class="follow-line"><span id="' +
+      f.id +
+      '" class="avatar material-icons  md-36">account_circle</span><span>' +
       (f.name === "" ? "Unnamed" : f.name) +
       '</span> </div> <div class=" follow-mark"><span id="id" class="follow-id"> ' +
       f.id +
       '</span></div><div class="divider"></div></li>';
+      $(li).data('info',f);
+      $(li).appendTo($("#follow-list"));
   }
-  $("#follow-list").html(html);
+  //$("#follow-list").html(html);
 }
 
 function showDialog(title, hint) {
@@ -139,6 +178,11 @@ function showDialog(title, hint) {
         break;
     }
   });
+}
+
+function userClick(e,f){
+
+  console.log("clicked id: "+e.id +", userinfo :" + f.name )
 }
 
 async function modifyName(message, password) {

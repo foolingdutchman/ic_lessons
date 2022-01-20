@@ -134,4 +134,14 @@ let this = actor {
     };
 
 
+    public shared func followPosts(id :Text ,since : Time.Time): async [Message]{
+         let blog : Blog= actor(id);
+         try{
+                await blog.posts(since)
+                }catch(e){
+                []
+            };
+    };
+
+
 };

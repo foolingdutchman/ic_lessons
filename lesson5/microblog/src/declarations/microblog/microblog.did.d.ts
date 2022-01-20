@@ -8,6 +8,7 @@ export interface Message {
 export type Time = bigint;
 export interface _SERVICE {
   'follow' : (arg_0: string, arg_1: Principal) => Promise<undefined>,
+  'followPosts' : (arg_0: string, arg_1: Time) => Promise<Array<Message>>,
   'follows' : () => Promise<Array<Principal>>,
   'followsInfo' : () => Promise<Array<BlogInfo>>,
   'getInfo' : () => Promise<{ 'cId' : string, 'userName' : string }>,

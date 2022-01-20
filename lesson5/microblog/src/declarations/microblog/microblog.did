@@ -12,6 +12,7 @@ type BlogInfo =
  };
 service : {
   follow: (text, principal) -> ();
+  followPosts: (text, Time) -> (vec Message);
   follows: () -> (vec principal) query;
   followsInfo: () -> (vec BlogInfo);
   getInfo: () -> (record {
